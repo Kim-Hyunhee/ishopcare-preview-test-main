@@ -4,15 +4,15 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { FastifyInstance, fastify } from 'fastify';
+// import { FastifyInstance, fastify } from 'fastify';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const fastifyInstance: FastifyInstance = fastify();
+  // const fastifyInstance: FastifyInstance = fastify();
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter(fastifyInstance),
+    new FastifyAdapter(),
     {
       cors: true,
     },
