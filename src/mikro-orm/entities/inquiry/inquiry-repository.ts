@@ -18,4 +18,8 @@ export class InquiryRepository {
   async findAll() {
     return await this.writeRepository.findAll();
   }
+
+  async findByPhoneNumber(phoneNumber: string): Promise<InquiryEntity[]> {
+    return await this.writeRepository.find({ phoneNumber });
+  }
 }
