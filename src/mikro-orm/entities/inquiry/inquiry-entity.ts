@@ -11,13 +11,16 @@ export class InquiryEntity {
   @Property({ name: 'industryTypeId' })
   industryTypeId!: number;
 
-  @Property({ name: 'corporateRegistrationNumber' })
+  @Property({ name: 'corporateRegistrationNumber', nullable: true })
   corporateRegistrationNumber?: string;
+
+  @Property({ name: 'taxpayerStatus', nullable: true })
+  taxpayerStatus?: string;
 
   @Property({ name: 'isPrivacyAgreed' })
   isPrivacyAgreed!: boolean;
 
-  @Property({ name: 'isMarketingAgreed' })
+  @Property({ name: 'isMarketingAgreed', nullable: true })
   isMarketingAgreed?: boolean;
 
   @Property({ onCreate: () => new Date() })

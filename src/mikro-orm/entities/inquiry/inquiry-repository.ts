@@ -22,4 +22,18 @@ export class InquiryRepository {
   async findByPhoneNumber(phoneNumber: string): Promise<InquiryEntity[]> {
     return await this.writeRepository.find({ phoneNumber });
   }
+
+  async findWithCorporateNumber(): Promise<InquiryEntity[]> {
+    return this.writeRepository.find({
+      corporateRegistrationNumber: { $ne: null },
+    });
+  }
+
+  async updateStatus(id: number, status: string): Promise<void> {
+    const inquiry = await this.writeRepository.findOne({ id });
+    if (inquiry) {
+      inquiry.taxpayerStatus = status;
+      await this.writeRepository.getEntityManager().flush();
+    }
+  }
 }
