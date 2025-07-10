@@ -16,24 +16,19 @@ export class InquiryRepository {
     await this.writeRepository.getEntityManager().flush();
   }
 
-  async findAll() {
-    return await this.writeRepository.findAll();
+  async find(where: FilterQuery<InquiryEntity>) {
+    return await this.writeRepository.find(where);
   }
 
-  async findByPhoneNumber(phoneNumber: string): Promise<InquiryEntity[]> {
-    return await this.writeRepository.find({ phoneNumber });
-  }
-
-  async findWithCorporateNumber(): Promise<InquiryEntity[]> {
-    return this.writeRepository.find({
-      corporateRegistrationNumber: { $ne: null },
-    });
-  }
-
-  async updateStatus(id: number, status: string): Promise<void> {
+  async updateStatus(
+    id: number,
+    status: string,
+    statusCheckedAt: Date,
+  ): Promise<void> {
     const inquiry = await this.writeRepository.findOne({ id });
     if (inquiry) {
       inquiry.taxpayerStatus = status;
+      inquiry.statusCheckedAt = statusCheckedAt;
       await this.writeRepository.getEntityManager().flush();
     }
   }

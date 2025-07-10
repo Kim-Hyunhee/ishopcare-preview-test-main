@@ -17,6 +17,9 @@ export class InquiryEntity {
   @Property({ name: 'taxpayerStatus', nullable: true })
   taxpayerStatus?: string;
 
+  @Property({ name: 'statusCheckedAt', nullable: true })
+  statusCheckedAt?: Date;
+
   @Property({ name: 'isPrivacyAgreed' })
   isPrivacyAgreed!: boolean;
 

@@ -6,9 +6,12 @@ import { PublicApiModule } from './api/public/public-api.module';
 import { DB_NAME } from './mikro-orm/const';
 import { InquiryEntity } from './mikro-orm/entities/inquiry/inquiry-entity';
 import { BatchModule } from './batch/batch.module';
+import { ConfigModule } from '@nestjs/config';
+import { BizStatusModule } from './libs/biz-status/biz-status.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     MikroOrmModule.forRoot({
       dbName: DB_NAME,
       driver: SqliteDriver,
@@ -18,6 +21,7 @@ import { BatchModule } from './batch/batch.module';
     InternalApiModule,
     PublicApiModule,
     BatchModule,
+    BizStatusModule,
   ],
 })
 export class AppModule {}
