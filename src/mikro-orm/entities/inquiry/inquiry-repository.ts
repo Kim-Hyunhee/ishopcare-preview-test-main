@@ -1,7 +1,8 @@
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityRepository, FilterQuery } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { InquiryEntity } from './inquiry-entity';
+import { FindInquiryDto } from 'src/api/internal/dto/find-inquiry.dto';
 
 @Injectable()
 export class InquiryRepository {
@@ -35,5 +36,35 @@ export class InquiryRepository {
       inquiry.taxpayerStatus = status;
       await this.writeRepository.getEntityManager().flush();
     }
+  }
+
+  async findByFilter(dto: FindInquiryDto) {
+    const { phoneNumber, startDate, endDate, page, limit } = dto;
+
+    const where: FilterQuery<InquiryEntity> = {};
+
+    if (phoneNumber) {
+      where.phoneNumber = phoneNumber;
+    }
+
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.$gte = startDate;
+      if (endDate) where.createdAt.$lte = endDate;
+    }
+
+    const [data, total] = await this.writeRepository.findAndCount(where, {
+      orderBy: { createdAt: 'DESC' },
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }

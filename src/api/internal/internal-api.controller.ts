@@ -10,7 +10,7 @@ export class InternalApiController {
 
   @ApiOperation({ summary: '구매 상담 조회 API' })
   @Get('/inquiries')
-  getInquiries(@Query() { phoneNumber }: FindInquiryDto) {
-    return this.internalApiService.getInquiries({ phoneNumber });
+  getInquiries(@Query() dto: FindInquiryDto) {
+    return this.internalApiService.getInquiries(dto);
   }
 }
